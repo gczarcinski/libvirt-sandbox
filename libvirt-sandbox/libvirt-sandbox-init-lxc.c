@@ -42,7 +42,7 @@ static void set_debug(void);
 static int has_command_arg(const char *name,
                            char **val);
 
-static int debug = 0;
+static int debug = 1;
 
 int
 main(int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
