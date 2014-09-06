@@ -1176,6 +1176,9 @@ int main(int argc, char **argv) {
     bindtextdomain(PACKAGE, LOCALEDIR);
     bind_textdomain_codeset(PACKAGE, "UTF-8");
     textdomain(PACKAGE);
+    
+    if (debug)
+        fprintf(stderr,"--- starting libvirt-sandbox-init-common ---\n");
 
     if (geteuid() != 0) {
         g_printerr(_("%s: must be launched as root\n"), argv[0]);
@@ -1218,8 +1221,12 @@ int main(int argc, char **argv) {
         start_shell() < 0)
         exit(EXIT_FAILURE);
 
+    if (debug)
+        fprint(stderr,"--- attempt to setup network ---\n");
     if (!setup_network(config, &error))
         goto error;
+    if (debug)
+        fprint(stderr,"--- network setup successful ---\n");
 
     if (GVIR_SANDBOX_IS_CONFIG_INTERACTIVE(config)) {
         if (run_interactive(config) < 0)

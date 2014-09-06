@@ -59,7 +59,7 @@ main(int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
     set_debug();
 
     if (debug)
-        fprintf(stderr, "libvirt-sandbox-init-lxc: starting up\n");
+        fprintf(stderr, "--- --- libvirt-sandbox-init-lxc: starting up --- ---\n");
 
     memset(&args, 0, sizeof(args));
     if (has_command_arg("strace=", &strace) == 0) {
