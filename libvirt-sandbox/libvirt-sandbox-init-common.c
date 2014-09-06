@@ -47,8 +47,8 @@
 
 #include "libvirt-sandbox-rpcpacket.h"
 
-static gboolean debug = FALSE;
-static gboolean verbose = FALSE;
+static gboolean debug = TRUE;
+static gboolean verbose = TRUE;
 static int sigwrite;
 
 #define ATTR_UNUSED __attribute__((__unused__))
@@ -218,10 +218,18 @@ static gboolean setup_network_device(GVirSandboxConfigNetwork *config,
     GList *tmp;
     gboolean ret = FALSE;
 
+    if (debug)
+        fprintf(stderr,"setup network device '%s'\n", devname);
     if (gvir_sandbox_config_network_get_dhcp(config)) {
+        if (debug)
+            fprintf(stderr,"try starting dhcp for '%s'\n", devname);
         if (!start_dhcp(devname, error))
             goto cleanup;
+        if (debug)
+            fprintf(stderr,"dhcp started on '%s'\n", devname);
     } else {
+        if (debug)
+            fprintf(stderr,"non-dhcp network device '%s'\n", devname);
         tmp = addrs = gvir_sandbox_config_network_get_addresses(config);
         while (tmp) {
             GVirSandboxConfigNetworkAddress *addr = tmp->data;
