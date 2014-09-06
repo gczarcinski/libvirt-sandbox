@@ -1222,11 +1222,11 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
 
     if (debug)
-        fprint(stderr,"--- attempt to setup network ---\n");
+        fprintf(stderr,"--- attempt to setup network ---\n");
     if (!setup_network(config, &error))
         goto error;
     if (debug)
-        fprint(stderr,"--- network setup successful ---\n");
+        fprintf(stderr,"--- network setup successful ---\n");
 
     if (GVIR_SANDBOX_IS_CONFIG_INTERACTIVE(config)) {
         if (run_interactive(config) < 0)
