@@ -115,7 +115,7 @@ static gboolean start_dhcp(const gchar *devname, GError **error)
     gchar *cmdline = NULL;
     gboolean ret = TRUE;
 
-    if (debug {
+    if (debug) {
         cmdline = g_stddup_printf("/usr/sbin/dhclient --no-pid %s",devname);
         fprintf(stderr,"cmdline: %s\n", cmdline);
         if (!g_spawn_command_line_async(cmdline, error))
