@@ -111,14 +111,16 @@ start_shell(void)
 
 static gboolean start_dhcp(const gchar *devname, GError **error)
 {
-    const gchar *argv[] = { "/usr/sbin/dhclient", "-v", "-w", "-nc",
+    const gchar *argv[] = { "/usr/sbin/dhclient", "-v",
                             "-pf", g_strdup_printf("/var/run/dhclinet-%s.pid",devname),
                             devname, NULL };
 
-    if (debug)
+    if (debug) {
         fprintf(stderr,"**** start_dhcp() starting for %s ****\n", devname);
+        fprintf(stderr,"**** df=%s\n",argv[5]);
+    }
 
-    if (!g_spawn_async(NULL, (gchar**)argv, NULL,
+    if (!g_spawn_sync(NULL, (gchar**)argv, NULL,
                        G_SPAWN_STDOUT_TO_DEV_NULL |
                        G_SPAWN_STDERR_TO_DEV_NULL,
                        NULL, NULL, NULL, error))
