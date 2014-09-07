@@ -112,6 +112,17 @@ start_shell(void)
 static gboolean start_dhcp(const gchar *devname, GError **error)
 {
     const gchar *argv[] = { "/usr/sbin/dhclient", "--no-pid", devname, NULL };
+    gchar *cmdline = NULL;
+    gboolean ret = TRUE;
+
+    if (debug {
+        cmdline = g_stddup_printf("/usr/sbin/dhclient --no-pid %s",devname);
+        fprintf(stderr,"cmdline: %s\n", cmdline);
+        if (!g_spawn_command_line_async(cmdline, error))
+            ret = FALSE;
+        g_free(cmdline);
+        return ret;
+    }
 
     if (!g_spawn_async(NULL, (gchar**)argv, NULL,
                        G_SPAWN_STDOUT_TO_DEV_NULL |
