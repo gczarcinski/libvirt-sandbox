@@ -112,7 +112,7 @@ start_shell(void)
 static gboolean start_dhcp(const gchar *devname, GError **error)
 {
     const gchar *argv[] = { "/usr/sbin/dhclient", "-v", "-w", "-nc",
-                            "--no-pid",
+                            "-pf", g_strdup_printf("/var/run/dhclinet-%s.pid",devname),
                             devname, NULL };
 
     if (debug)
