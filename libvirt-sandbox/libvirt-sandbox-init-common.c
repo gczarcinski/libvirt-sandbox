@@ -115,7 +115,7 @@ static gboolean start_dhcp(const gchar *devname, GError **error)
                             "-pf", g_strdup_printf("/var/run/dhclinet-%s.pid",devname),
                             devname, NULL };
     gboolean ret = TRUE;
-    GError save = NULL;
+    GError *save = NULL;
 
     if (debug) {
         fprintf(stderr,"**** start_dhcp() starting for %s ****\n", devname);
