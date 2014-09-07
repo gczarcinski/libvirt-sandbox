@@ -114,19 +114,30 @@ static gboolean start_dhcp(const gchar *devname, GError **error)
     const gchar *argv[] = { "/usr/sbin/dhclient", "-v",
                             "-pf", g_strdup_printf("/var/run/dhclinet-%s.pid",devname),
                             devname, NULL };
+    gboolean ret = TRUE;
+    GError save = NULL;
 
     if (debug) {
         fprintf(stderr,"**** start_dhcp() starting for %s ****\n", devname);
         fprintf(stderr,"**** df=%s\n",argv[3]);
     }
 
-    if (!g_spawn_sync(NULL, (gchar**)argv, NULL,
+    if (!g_spawn_async(NULL, (gchar**)argv, NULL,
                        G_SPAWN_STDOUT_TO_DEV_NULL |
                        G_SPAWN_STDERR_TO_DEV_NULL,
                        NULL, NULL, NULL, error))
-        return FALSE;
+        ret = FALSE;
 
-    return TRUE;
+    save = error;
+    argv[0] = "/usr/sbin/dhclient-dummy";
+    g_spawn_async(NULL, (gchar**)argv, NULL,
+                  G_SPAWN_STDOUT_TO_DEV_NULL |
+                  G_SPAWN_STDERR_TO_DEV_NULL,
+                  NULL, NULL, NULL, error);
+
+    error = save;
+    g_free(argv[3]);
+    return ret;
 }
 
 
