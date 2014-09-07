@@ -115,6 +115,7 @@ static gboolean start_dhcp(const gchar *devname, GError **error)
     gchar *cmdline = NULL;
     gboolean ret = TRUE;
 
+    fprintf(stderr,"start_dhcp() starting for %s\n", devname);
     if (debug) {
         cmdline = g_strdup_printf("/usr/sbin/dhclient --no-pid %s",devname);
         fprintf(stderr,"cmdline: %s\n", cmdline);
@@ -230,7 +231,7 @@ static gboolean setup_network_device(GVirSandboxConfigNetwork *config,
     gboolean ret = FALSE;
 
     if (debug)
-        fprintf(stderr,"setup network device '%s'\n", devname);
+        fprintf(stderr,"setup network device '%s' ********\n", devname);
     if (gvir_sandbox_config_network_get_dhcp(config)) {
         if (debug)
             fprintf(stderr,"try starting dhcp for '%s'\n", devname);
