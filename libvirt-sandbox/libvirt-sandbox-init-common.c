@@ -117,7 +117,7 @@ static gboolean start_dhcp(const gchar *devname, GError **error)
 
     if (debug) {
         fprintf(stderr,"**** start_dhcp() starting for %s ****\n", devname);
-        fprintf(stderr,"**** df=%s\n",argv[5]);
+        fprintf(stderr,"**** df=%s\n",argv[3]);
     }
 
     if (!g_spawn_sync(NULL, (gchar**)argv, NULL,
