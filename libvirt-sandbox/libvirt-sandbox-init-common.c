@@ -112,18 +112,22 @@ start_shell(void)
 static gboolean start_dhcp(const gchar *devname, GError **error)
 {
     const gchar *argv[] = { "/usr/sbin/dhclient", "-v",
-                            "-pf", g_strdup_printf("/var/run/dhclinet-%s.pid",devname),
+                            "--no-pid",
                             devname, NULL };
     gboolean ret = TRUE;
 
     if (debug) {
         fprintf(stderr,"**** start_dhcp() starting for %s ****\n", devname);
-        fprintf(stderr,"**** pf=%s\n",argv[3]);
     }
-
+#if 0
     if (!g_spawn_async(NULL, (gchar**)argv, NULL,
                        G_SPAWN_STDOUT_TO_DEV_NULL |
                        G_SPAWN_STDERR_TO_DEV_NULL,
+                       NULL, NULL, NULL, error))
+        ret = FALSE;
+#endif
+    if (!g_spawn_async(NULL, (gchar**)argv, NULL,
+                       G_SPAWN_DEFAULT,
                        NULL, NULL, NULL, error))
         ret = FALSE;
 
