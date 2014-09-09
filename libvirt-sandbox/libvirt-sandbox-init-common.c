@@ -111,7 +111,7 @@ start_shell(void)
 
 static gboolean start_dhcp(const gchar *devname, GError **error)
 {
-    const gchar *argv[] = { "/usr/sbin/dhclient", "-v",
+    const gchar *argv[] = { "/usr/sbin/dhclient.sh", "-v",
                             "--no-pid",
                             devname, NULL };
     gboolean ret = TRUE;
@@ -222,7 +222,7 @@ static gboolean add_route(const gchar *devname,
 
 static void check_nics(GError **error)
 {
-    const gchar *argv[] = {"/usr/sbin/ip", "addr", NULL};
+    const gchar *argv[] = {"/usr/sbin/ip", "-o", "addr", NULL};
     
     fprintf(stderr,"*** check NICS ***\n");
     g_spawn_sync(NULL, (gchar**)argv, NULL, 0,
