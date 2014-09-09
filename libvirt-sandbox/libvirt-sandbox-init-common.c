@@ -113,10 +113,8 @@ static gboolean start_dhcp(const gchar *devname, GError **error)
 {
     const gchar *argv[] = { "/sbin/dhclient", "--no-pid", devname, NULL };
 
-    if (!g_spawn_async(NULL, (gchar**)argv, NULL,
-                       G_SPAWN_STDOUT_TO_DEV_NULL |
-                       G_SPAWN_STDERR_TO_DEV_NULL,
-                       NULL, NULL, NULL, error))
+    if (!g_spawn_sync(NULL, (gchar**)argv, NULL, 0,
+                      NULL, NULL, NULL, NULL, NULL, error))
         return FALSE;
 
     return TRUE;
