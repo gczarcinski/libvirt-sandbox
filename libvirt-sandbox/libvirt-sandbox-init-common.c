@@ -228,8 +228,9 @@ static gboolean add_route(const gchar *devname,
 
 static void check_nics(GError **error)
 {
-    gchar *argv[] = {"/usr/sbin/ip", "addr", NULL};
+    const gchar *argv[] = {"/usr/sbin/ip", "addr", NULL};
     
+    fprintf(stderr,"*** check NICS ***\n");
     g_spawn_sync(NULL, (gchar**)argv, NULL, 0,
                       NULL, NULL, NULL, NULL, NULL, error);
 }
