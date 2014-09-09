@@ -226,6 +226,13 @@ static gboolean add_route(const gchar *devname,
     return ret;
 }
 
+static void check_nics(GError **error)
+{
+    gchar *argv[] = {"/usr/sbin/ip", "addr", NULL};
+    
+    g_spawn_sync(NULL, (gchar**)argv, NULL, 0,
+                      NULL, NULL, NULL, NULL, NULL, error);
+}
 
 static gboolean setup_network_device(GVirSandboxConfigNetwork *config,
                                      const gchar *devname,
@@ -238,6 +245,8 @@ static gboolean setup_network_device(GVirSandboxConfigNetwork *config,
 
     if (debug)
         fprintf(stderr,"setup network device '%s' ********\n", devname);
+    if (debug)
+        check_nics(error);
     if (gvir_sandbox_config_network_get_dhcp(config)) {
         if (debug)
             fprintf(stderr,"try starting dhcp for '%s'\n", devname);
@@ -272,6 +281,8 @@ static gboolean setup_network_device(GVirSandboxConfigNetwork *config,
     ret = TRUE;
 
  cleanup:
+    if (debug)
+        check_nics(error);
     g_list_foreach(addrs, (GFunc)g_object_unref, NULL);
     g_list_free(addrs);
     g_list_foreach(routes, (GFunc)g_object_unref, NULL);
